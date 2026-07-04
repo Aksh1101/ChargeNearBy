@@ -15,11 +15,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.aksh.chargenearby.R
 
-@Preview
 @Composable
-fun LandingPage1(){
+fun LandingPage1(navController: NavController){
 
     Box(modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.TopCenter

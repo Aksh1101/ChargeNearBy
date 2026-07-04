@@ -1,4 +1,4 @@
-package com.aksh.chargenearby.ui.screens
+package com.aksh.chargenearby.feature.auth
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -11,14 +11,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -35,13 +33,10 @@ import androidx.compose.ui.unit.sp
 
 @Preview
 @Composable
-fun SignInScreen() {
+private fun ForgotPassScreen() {
 
     val scrollState = rememberScrollState()
-    var name by rememberSaveable{ mutableStateOf("") }
     var email by rememberSaveable { mutableStateOf("") }
-    var password by rememberSaveable { mutableStateOf("") }
-    var isChecked by rememberSaveable { mutableStateOf(false)}
 
     Surface(modifier = Modifier.fillMaxSize()) {
 
@@ -54,16 +49,15 @@ fun SignInScreen() {
 
             Spacer(modifier = Modifier.height(100.dp))
 
-            Text(text = "Sign In",
+            Text(text = "Forgot Password",
                 fontWeight = FontWeight.Bold,
                 fontFamily = FontFamily.Serif,
                 fontSize = 40.sp,
                 color = Color.Black
             )
 
-            Text(text = "")
 
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(20.dp))
 
             OutlinedTextField(
                 value = email,
@@ -80,32 +74,8 @@ fun SignInScreen() {
                 shape = RoundedCornerShape(10.dp)
             )
 
-            Spacer(modifier = Modifier.height(30.dp))
-
-             OutlinedTextField(
-                value = password,
-                onValueChange = {password = it},
-                placeholder = {Text(text = "Password")},
-                leadingIcon = {
-                    Icon(imageVector = Icons.Default.Lock,
-                        contentDescription = "password")
-                },
-                singleLine = true,
-                modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(10.dp)
-            )
-            Spacer(modifier = Modifier.height(10.dp))
-
-            TextButton(onClick = {},
-                modifier = Modifier.align(Alignment.End),
-                colors = ButtonDefaults.textButtonColors(
-                    contentColor = Color(0xFF22C55E)
-                )
-            ) {
-                Text(text = "Forgot Password")
-            }
-
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(35.dp))
+            
 
             Button(onClick = {},
                 modifier = Modifier.fillMaxWidth()
@@ -114,14 +84,12 @@ fun SignInScreen() {
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color(0xFF22C55E)
                 )) {
-                Text(text = "Sign Up")
+                Text(text = "Send Code")
             }
             Spacer(modifier = Modifier.height(20.dp))
 
-            Text(text = "Or Sign up with")
 
-            // add google sign in
         }
     }
-
+    
 }

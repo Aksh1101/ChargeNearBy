@@ -61,9 +61,6 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.60")
     ksp("com.google.dagger:hilt-android-compiler:2.60")
 
-    implementation("androidx.activity:activity-compose:1.13.0")
-    implementation("androidx.compose.ui:ui:1.11.4")
-    implementation("androidx.compose.material3:material3:1.4.0")
     implementation("androidx.navigation:navigation-compose:2.9.8")
 
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.11.0")
@@ -81,5 +78,10 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.11.0")
 
     implementation("androidx.compose.material:material-icons-extended")
+
+    implementation(libs.maplibre)
+    implementation(libs.play.services.location)
+
+
 
 }

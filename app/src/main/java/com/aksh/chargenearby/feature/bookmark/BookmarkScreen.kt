@@ -1,0 +1,10 @@
+package com.aksh.chargenearby.feature.bookmark
+
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.navigation.NavController
+
+@Composable
+fun BookmarkScreen(navController: NavController) {
+
+}
