@@ -10,7 +10,9 @@ import androidx.compose.ui.Modifier
 import com.aksh.chargenearby.feature.auth.SignInScreen
 import com.aksh.chargenearby.navigation.AppNavHost
 import com.aksh.chargenearby.ui.theme.ChargeNearByTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

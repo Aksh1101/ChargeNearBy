@@ -23,7 +23,7 @@ fun MainNavHost(navController: NavHostController, modifier: Modifier) {
             HomeScreen(navController)
         }
         composable(Screen.Map.route) {
-            MapScreen(navController)
+            MapScreen()
         }
         composable(Screen.Saved.route) {
             BookmarkScreen(navController)
