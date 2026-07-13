@@ -2,48 +2,69 @@ package com.aksh.chargenearby.feature.map.component
 
 import android.Manifest
 import android.content.pm.PackageManager
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.Modifier
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 
 @Composable
-fun LocationPermissionHandler(onPermissionResult : (Boolean) -> Unit) {
-
+fun LocationPermissionHandler(
+    onPermissionResult: (Boolean) -> Unit
+) {
     val context = LocalContext.current
+
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    val currentOnPermissionResult by rememberUpdatedState(
+        newValue = onPermissionResult
+    )
 
     val permissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestMultiplePermissions()
-    ) {permission->
+    ) { permissions ->
 
-        val hasLocationPermission =
-            permission[Manifest.permission.ACCESS_FINE_LOCATION] == true ||
-                    permission[Manifest.permission.ACCESS_COARSE_LOCATION] == true
+        val hasFineLocationPermission =
+            permissions[Manifest.permission.ACCESS_FINE_LOCATION] == true
 
-        onPermissionResult(hasLocationPermission)
+        val hasCoarseLocationPermission =
+            permissions[Manifest.permission.ACCESS_COARSE_LOCATION] == true
 
+        currentOnPermissionResult(
+            hasFineLocationPermission ||
+                    hasCoarseLocationPermission
+        )
     }
 
+    fun checkLocationPermission(): Boolean {
+        val hasFineLocationPermission =
+            ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+
+        val hasCoarseLocationPermission =
+            ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+
+        return hasFineLocationPermission ||
+                hasCoarseLocationPermission
+    }
 
     LaunchedEffect(Unit) {
-        val hasFineLocationPermission = ContextCompat.checkSelfPermission(
-            context,
-            Manifest.permission.ACCESS_FINE_LOCATION
-        ) == PackageManager.PERMISSION_GRANTED
-
-        val hasCoarseLocationPermission = ContextCompat.checkSelfPermission(
-            context,
-            Manifest.permission.ACCESS_COARSE_LOCATION
-        ) == PackageManager.PERMISSION_GRANTED
-
-        if (hasFineLocationPermission || hasCoarseLocationPermission) {
-            onPermissionResult(true)
-        }else{
+        if (checkLocationPermission()) {
+            currentOnPermissionResult(true)
+        } else {
             permissionLauncher.launch(
                 arrayOf(
                     Manifest.permission.ACCESS_FINE_LOCATION,
@@ -53,5 +74,20 @@ fun LocationPermissionHandler(onPermissionResult : (Boolean) -> Unit) {
         }
     }
 
-    
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+
+            if (event == Lifecycle.Event.ON_RESUME) {
+                currentOnPermissionResult(
+                    checkLocationPermission()
+                )
+            }
+        }
+
+        lifecycleOwner.lifecycle.addObserver(observer)
+
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+        }
+    }
 }

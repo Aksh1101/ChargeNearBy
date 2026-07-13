@@ -1,6 +1,7 @@
 package com.aksh.chargenearby.data
 
 import com.aksh.chargenearby.domain.model.ChargingStation
+import com.aksh.chargenearby.domain.model.ConnectorType
 import com.aksh.chargenearby.domain.repository.ChargingStationRepository
 import javax.inject.Inject
 
@@ -19,7 +20,8 @@ class FakeChargingStationRepository @Inject constructor() :
                 latitude = latitude + 0.004,
                 longitude = longitude + 0.002,
                 address = "Central EV Charging Hub",
-                connectorTypes = listOf("CCS2", "Type 2"),
+                connectorTypes = listOf(ConnectorType.CCS2,
+                    ConnectorType.TYPE_2),
                 availableConnectors = 3,
                 totalConnectors = 4,
                 chargingSpeedKw = 60.0,
@@ -32,7 +34,7 @@ class FakeChargingStationRepository @Inject constructor() :
                 latitude = latitude - 0.003,
                 longitude = longitude + 0.005,
                 address = "GreenVolt EV Station",
-                connectorTypes = listOf("CCS2"),
+                connectorTypes = listOf(ConnectorType.CCS2),
                 availableConnectors = 1,
                 totalConnectors = 2,
                 chargingSpeedKw = 50.0,
@@ -45,7 +47,8 @@ class FakeChargingStationRepository @Inject constructor() :
                 latitude = latitude + 0.002,
                 longitude = longitude - 0.005,
                 address = "EcoCharge Network",
-                connectorTypes = listOf("Type 2"),
+                connectorTypes = listOf(ConnectorType.BHARAT_AC_001,
+                    ConnectorType.CHADEMO),
                 availableConnectors = 0,
                 totalConnectors = 2,
                 chargingSpeedKw = 22.0,

@@ -6,10 +6,13 @@ data class ChargingStation(
     val latitude: Double,
     val longitude: Double,
     val address: String,
-    val connectorTypes: List<String>,
+    val connectorTypes: List<ConnectorType>,
     val availableConnectors: Int,
     val totalConnectors: Int,
     val chargingSpeedKw: Double,
     val pricePerKwh: Double?,
-    val isOperational: Boolean
-)
+    val isOperational: Boolean,
+){
+    val isAvailable: Boolean
+        get() = isOperational && availableConnectors > 0
+}

@@ -10,4 +10,6 @@ data class MapUiState(
 
     val stations: List<ChargingStation> = emptyList(),
     val selectedStation: ChargingStation? = null,
+
+    val isPermissionDenied: Boolean = false
 )
