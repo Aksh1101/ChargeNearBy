@@ -13,6 +13,8 @@ val localProperties = Properties().apply {
 
 val mapsApiKey = localProperties.getProperty("MAPS_API_KEY", "")
 
+val openChargeMapApiKey = localProperties.getProperty("OPEN_CHARGE_MAP_API_KEY", "")
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
@@ -37,21 +39,33 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         manifestPlaceholders["MAPS_API_KEY"] = mapsApiKey
+
+        buildConfigField(
+            "String",
+            "OPEN_CHARGE_MAP_API_KEY",
+            "\"$openChargeMapApiKey\""
+        )
     }
 
     buildTypes {
         release {
-            optimization {
-                enable = false
-            }
+            isMinifyEnabled = false
+
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
     buildFeatures {
+        buildConfig = true
         compose = true
+
     }
 }
 
@@ -85,8 +99,6 @@ dependencies {
 
     implementation("androidx.hilt:hilt-navigation-compose:1.4.0")
 
-    implementation("com.squareup.retrofit2:retrofit:3.0.0")
-    implementation("com.squareup.retrofit2:converter-gson:3.0.0")
 
     implementation("androidx.room:room-runtime:2.8.4")
     ksp("androidx.room:room-compiler:2.8.4")
@@ -100,6 +112,13 @@ dependencies {
     implementation(libs.play.services.location)
 
     implementation(libs.kotlinx.coroutines.play.services)
+
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.gson)
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.logging.interceptor)
+
+
 
 
 
